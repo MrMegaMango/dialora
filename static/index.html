@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f3efe6" />
+    <title>Call Driver</title>
+    <link rel="icon" href="/static/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <a class="brand" href="/" aria-label="Call Driver home">
+          <span class="brand-mark" aria-hidden="true">↗</span>
+          <span>Call Driver</span>
+        </a>
+        <div class="system-strip" id="system-strip" aria-live="polite">
+          <span class="system-pill pending">Checking local services…</span>
+        </div>
+      </header>
+
+      <section id="setup-view" class="setup-grid">
+        <div class="intro-panel">
+          <p class="eyebrow">Intent in. Conversation handled.</p>
+          <h1>Make the call without carrying the script.</h1>
+          <p class="lede">
+            Give the agent an outcome, the facts it may use, and your hard boundaries.
+            It listens locally, speaks through Kokoro, and hands control back whenever
+            a human decision is needed.
+          </p>
+
+          <div class="flow-card" aria-label="How it works">
+            <div><span>01</span><p>Set the outcome</p></div>
+            <div><span>02</span><p>Connect through Phone</p></div>
+            <div><span>03</span><p>Watch or take over</p></div>
+          </div>
+
+          <div class="privacy-note">
+            <span class="lock" aria-hidden="true">⌁</span>
+            <p><strong>Local audio path.</strong> Whisper and Kokoro run on this Mac. Raw call audio is discarded after each turn; the text transcript stays in this project.</p>
+          </div>
+        </div>
+
+        <form id="brief-form" class="brief-card">
+          <div class="card-heading">
+            <div>
+              <p class="eyebrow">New call</p>
+              <h2>What needs to happen?</h2>
+            </div>
+            <span class="draft-badge">Draft</span>
+          </div>
+
+          <label class="field full">
+            <span>Intention <b>required</b></span>
+            <textarea id="intention" name="intention" rows="4" required minlength="5" maxlength="2000" placeholder="Example: Reschedule my dentist appointment from Friday afternoon to any morning next week, without accepting an extra fee."></textarea>
+          </label>
+
+          <div class="two-col">
+            <label class="field">
+              <span>Person</span>
+              <input id="contact-name" name="contact_name" maxlength="100" placeholder="Alex" />
+            </label>
+            <label class="field">
+              <span>Organization</span>
+              <input id="organization" name="organization" maxlength="120" placeholder="Northside Dental" />
+            </label>
+          </div>
+
+          <div class="two-col">
+            <label class="field">
+              <span>Phone number</span>
+              <input id="phone-number" name="phone_number" inputmode="tel" maxlength="30" placeholder="+1 415 555 0100" />
+            </label>
+            <label class="field">
+              <span>Calling for</span>
+              <input id="behalf" name="calling_on_behalf_of" maxlength="80" value="Zuo" required />
+            </label>
+          </div>
+
+          <label class="field full">
+            <span>Facts the agent may use</span>
+            <textarea id="facts" name="facts" rows="3" maxlength="4000" placeholder="Appointment ID, acceptable times, names, context… Never include passwords or one-time codes."></textarea>
+          </label>
+
+          <div class="two-col">
+            <label class="field">
+              <span>Hard boundaries</span>
+              <textarea id="boundaries" name="boundaries" rows="3" maxlength="2000" placeholder="No fee. Don’t change the provider."></textarea>
+            </label>
+            <label class="field">
+              <span>Success looks like</span>
+              <textarea id="success" name="success_definition" rows="3" maxlength="1200" placeholder="A confirmed morning appointment next week."></textarea>
+            </label>
+          </div>
+
+          <div class="consent-row">
+            <span class="check" aria-hidden="true">✓</span>
+            <p>The agent will always identify itself as AI, disclose live transcription, and stop if the other person declines.</p>
+          </div>
+
+          <p id="form-error" class="error" role="alert" hidden></p>
+
+          <div class="form-actions">
+            <button type="button" id="rehearse-button" class="button secondary">Rehearse first</button>
+            <button type="submit" class="button primary">Prepare call <span>→</span></button>
+          </div>
+        </form>
+      </section>
+
+      <section id="call-view" class="call-layout" hidden>
+        <aside class="mission-card">
+          <button id="back-button" class="back-button" type="button">← New brief</button>
+          <p class="eyebrow">Current mission</p>
+          <h2 id="mission-title">Call prepared</h2>
+          <p id="mission-intention" class="mission-copy"></p>
+
+          <dl class="mission-meta">
+            <div><dt>Calling</dt><dd id="mission-contact">Rehearsal</dd></div>
+            <div><dt>Success</dt><dd id="mission-success">—</dd></div>
+            <div><dt>Next move</dt><dd id="mission-next">Ask permission to continue</dd></div>
+          </dl>
+
+          <div class="mission-actions">
+            <button id="dial-button" class="button primary wide" type="button">Open in Phone <span>↗</span></button>
+            <button id="start-button" class="button dark wide" type="button">Start AI after they answer</button>
+          </div>
+
+          <div class="call-instructions">
+            <strong>Put the iPhone on speaker beside this Mac.</strong>
+            <p>The iPhone carries the call. This page listens through the Mac microphone and plays the agent through the Mac speakers.</p>
+          </div>
+        </aside>
+
+        <section class="live-card">
+          <div class="live-header">
+            <div>
+              <p class="eyebrow">Live conversation</p>
+              <div class="call-state-row">
+                <span id="call-dot" class="call-dot waiting"></span>
+                <h2 id="call-state">Ready when they answer</h2>
+              </div>
+            </div>
+            <div class="elapsed" id="elapsed">00:00</div>
+          </div>
+
+          <div id="audio-meter" class="audio-meter" aria-hidden="true">
+            <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+          </div>
+
+          <div id="transcript" class="transcript" aria-live="polite"></div>
+
+          <form id="manual-turn-form" class="manual-turn">
+            <input id="manual-turn" autocomplete="off" maxlength="4000" placeholder="Type what they said for a quiet rehearsal…" />
+            <button type="submit" aria-label="Send typed turn">↑</button>
+          </form>
+
+          <div class="control-bar">
+            <button id="pause-button" class="control" type="button"><span>Ⅱ</span> Take over</button>
+            <button id="resume-button" class="control" type="button" hidden><span>▶</span> Resume AI</button>
+            <a id="export-link" class="control" href="#"><span>↓</span> Transcript</a>
+            <button id="end-button" class="control danger" type="button"><span>×</span> End session</button>
+          </div>
+
+          <div id="takeover-panel" class="takeover-panel" hidden>
+            <div><span>Human turn</span><strong>The agent is muted.</strong></div>
+            <p id="takeover-guidance">Speak directly, then resume when you’re ready.</p>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+    <script src="/static/app.js" defer></script>
+  </body>
+</html>
