@@ -31,7 +31,7 @@ def test_create_call_and_continue(monkeypatch) -> None:
     )
     assert created.status_code == 201
     session = created.json()
-    assert "AI assistant" in session["transcript"][0]["text"]
+    assert "automated assistant" in session["transcript"][0]["text"]
     assert "live transcription" in session["transcript"][0]["text"]
 
     turn = client.post(

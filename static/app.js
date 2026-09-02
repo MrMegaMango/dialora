@@ -98,7 +98,7 @@ async function prepareCall(rehearsal) {
         next_goal: "Ask permission to continue",
         transcript: [{
           role: "agent",
-          text: `${greeting} I’m an AI assistant calling on behalf of ${brief.calling_on_behalf_of}. I use live transcription to follow the call. Is it okay if I continue?`,
+          text: `${greeting} I’m an automated assistant calling on behalf of ${brief.calling_on_behalf_of}. I use live transcription to follow the call. Is it okay if I continue?`,
           at: new Date().toISOString(),
         }],
       };
@@ -120,6 +120,18 @@ async function prepareCall(rehearsal) {
 
 function enterCallView() {
   const brief = state.session.brief;
+  state.active = false;
+  state.paused = false;
+  state.startedAt = null;
+  window.clearInterval(state.elapsedTimer);
+  state.elapsedTimer = null;
+  $("#elapsed").textContent = "00:00";
+  $("#start-button").disabled = false;
+  $("#pause-button").disabled = false;
+  $("#pause-button").hidden = false;
+  $("#resume-button").hidden = true;
+  $("#takeover-panel").hidden = true;
+  setCallState("Ready when they answer", "waiting");
   setupView.hidden = true;
   callView.hidden = false;
   $("#mission-title").textContent = state.rehearsal ? "Rehearsal ready" : "Call prepared";

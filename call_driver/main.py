@@ -40,7 +40,7 @@ async def warm_components() -> None:
 def opening_for(brief: CallBrief) -> str:
     greeting = f"Hi {brief.contact_name}," if brief.contact_name else "Hello,"
     return (
-        f"{greeting} I’m an AI assistant calling on behalf of "
+        f"{greeting} I’m an automated assistant calling on behalf of "
         f"{brief.calling_on_behalf_of}. I use live transcription to follow the call. "
         "Is it okay if I continue?"
     )
