@@ -16,6 +16,8 @@ on this Mac and are ignored by Git.
 
 ## Public demo
 
+Try it at [call-driver-nine.vercel.app](https://call-driver-nine.vercel.app).
+
 The Vercel deployment is deliberately a client-only typed rehearsal. It uses
 the browser's built-in voice, sends no brief or phone number to a server, and
 cannot place calls. Live calling remains local because Apple MLX and the Kokoro
