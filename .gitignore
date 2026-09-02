@@ -2,6 +2,7 @@
 .env
 .env.local
 .venv/
+.vercel/
 __pycache__/
 .pytest_cache/
 dist/
