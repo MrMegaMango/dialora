@@ -164,7 +164,7 @@ function appendTurn(turn) {
   wrapper.innerHTML = `
     <div class="turn-avatar">${isAgent ? "AI" : "THEM"}</div>
     <div class="turn-body">
-      <div class="turn-label">${isAgent ? "Call Driver" : "Other person"}</div>
+      <div class="turn-label">${isAgent ? "Dialora" : "Other person"}</div>
       <p class="turn-text">${escapeHtml(turn.text)}</p>
       <span class="turn-time">${escapeHtml(time)}</span>
     </div>`;
@@ -495,7 +495,7 @@ $("#export-link").addEventListener("click", (event) => {
   const url = URL.createObjectURL(new Blob([lines.join("\n\n")], { type: "text/plain" }));
   const link = document.createElement("a");
   link.href = url;
-  link.download = "call-driver-demo-transcript.txt";
+  link.download = "dialora-demo-transcript.txt";
   link.click();
   URL.revokeObjectURL(url);
 });

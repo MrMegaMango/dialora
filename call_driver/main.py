@@ -24,7 +24,7 @@ from .services import KokoroClient, SpeechRecognizer
 from .store import SessionStore
 
 
-app = FastAPI(title="Call Driver", docs_url=None, redoc_url=None)
+app = FastAPI(title="Dialora", docs_url=None, redoc_url=None)
 store = SessionStore(settings.sessions_dir)
 brain = create_brain(settings)
 recognizer = SpeechRecognizer(settings.whisper_model)

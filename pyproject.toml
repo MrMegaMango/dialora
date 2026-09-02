@@ -1,5 +1,5 @@
 [project]
-name = "call-driver"
+name = "dialora"
 version = "0.1.0"
 description = "A local intention-driven phone call copilot for macOS"
 readme = "README.md"

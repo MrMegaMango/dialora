@@ -49,7 +49,7 @@ class SpeechRecognizer:
         suffix = extension if extension.startswith(".") else f".{extension}"
         if suffix not in {".webm", ".mp4", ".m4a", ".wav", ".ogg", ".mp3"}:
             suffix = ".webm"
-        descriptor, path = tempfile.mkstemp(prefix="call-driver-", suffix=suffix)
+        descriptor, path = tempfile.mkstemp(prefix="dialora-", suffix=suffix)
         try:
             with os.fdopen(descriptor, "wb") as stream:
                 stream.write(audio)

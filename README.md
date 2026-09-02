@@ -1,6 +1,6 @@
-# Call Driver
+# Dialora
 
-Call Driver is a local-first phone conversation agent for macOS. You give it an
+Dialora is a local-first phone conversation agent for macOS. You give it an
 intention, facts it may use, boundaries, and a definition of success. It then
 listens to each turn, decides what to say, and speaks through the Kokoro container.
 
@@ -29,7 +29,8 @@ The first setup downloads the local Qwen model (about 3 GB). Whisper is reused
 from the existing Hugging Face cache when it is already present.
 
 ```sh
-cd /Users/zwang/Code/personal/call-driver
+git clone https://github.com/MrMegaMango/dialora.git
+cd dialora
 make setup
 make run
 ```
@@ -45,10 +46,10 @@ also double-click `run.command` in Finder.
 3. For a real call, click **Open in Phone**. The Phone app asks you to place the
    call through your paired iPhone.
 4. Put the iPhone on speakerphone beside the Mac. Once the person answers,
-   return to Call Driver and click **Start AI after they answer**.
+   return to Dialora and click **Start AI after they answer**.
 5. Watch the transcript. **Take over** immediately mutes the agent; **Resume AI**
    gives the next turn back to it.
-6. Hang up in the Phone app when Call Driver reports completion.
+6. Hang up in the Phone app when Dialora reports completion.
 
 macOS does not provide a supported API for a third-party app to inject audio
 directly into a native cellular call. This MVP therefore uses the Mac microphone
@@ -57,13 +58,13 @@ telephony provider for a direct, echo-free audio connection.
 
 ## Safety defaults
 
-Every session starts by identifying the caller as an AI assistant, naming the
+Every session starts by identifying the caller as an automated assistant, naming the
 person it represents, disclosing live transcription, and asking permission to
 continue. The conversation prompt also requires immediate compliance with stop
 or do-not-call requests and hands the call to a human for credentials, payments,
 binding commitments, or other high-impact decisions.
 
-Use Call Driver only for legitimate calls to people and organizations you are
+Use Dialora only for legitimate calls to people and organizations you are
 allowed to contact. It is not suitable for emergency, medical, legal, collections,
 political, bulk, or unsolicited sales calls. Call recording and automated-calling
 laws vary by location; the operator remains responsible for local requirements.
